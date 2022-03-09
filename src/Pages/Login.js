@@ -1,13 +1,24 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import Input from '../Components/Input';
+import { userInfo } from '../Redux/Actions';
+import fetchApiToken from '../services/api';
 
 class Login extends React.Component {
     state = {
       name: '',
       email: '',
       isDisabled: true,
+      token: '',
     }
+
+handleSettingClick = () => {
+  const { history } = this.props;
+  history.push('/settings');
+}
 
   handleChange = (event) => {
     const { target } = event;
@@ -27,6 +38,22 @@ class Login extends React.Component {
         isDisabled: true,
       });
     }
+  }
+
+  handleClick = async () => {
+    await this.fetchApi();
+  }
+
+  fetchApi = async () => {
+    const { dataInfo } = this.props;
+    const resultado = await fetchApiToken();
+    this.setState(() => ({
+      token: resultado,
+    }), () => {
+      const { history } = this.props;
+      dataInfo(this.state);
+      history.push('/game');
+    });
   }
 
   render() {
@@ -57,13 +84,34 @@ class Login extends React.Component {
             type="button"
             data-testid="btn-play"
             disabled={ isDisabled }
+            onClick={ this.handleClick }
           >
             Play
 
+          </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.handleSettingClick }
+          >
+            Configurações
           </button>
         </header>
       </div>
     );
   }
 }
+
 export default Login;
+
+Login.propTypes = {
+  dataInfo: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  dataInfo: (state) => dispatch(userInfo(state)) });
+
+export default connect(null, mapDispatchToProps)(Login);
