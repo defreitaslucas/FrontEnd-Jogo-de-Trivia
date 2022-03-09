@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import Input from '../Components/Input';
 import { userInfo } from '../Redux/Actions';
-import fetchApiToken from '../services/api';
+import { fetchApiToken } from '../services/api';
 
 class Login extends React.Component {
     state = {
@@ -101,8 +100,6 @@ handleSettingClick = () => {
     );
   }
 }
-
-export default Login;
 
 Login.propTypes = {
   dataInfo: PropTypes.func.isRequired,

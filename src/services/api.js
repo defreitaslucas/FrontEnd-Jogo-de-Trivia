@@ -1,5 +1,5 @@
-
 import md5 from 'crypto-js/md5';
+
 const API_TOKEN = 'https://opentdb.com/api_token.php?command=request';
 
 export const fetchApiGravatar = async (email) => {
@@ -12,8 +12,6 @@ export const fetchApiGravatar = async (email) => {
 
   return url;
 };
-
-const API_TOKEN = 'https://opentdb.com/api_token.php?command=request';
 
 const getTokenApi = async () => {
   const request = await fetch(API_TOKEN);
