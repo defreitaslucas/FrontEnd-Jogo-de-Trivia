@@ -1,22 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import fetchApiGravatar from '../services/api';
+import md5 from 'crypto-js/md5';
 
 class Header extends React.Component {
-  state = {
-    image: '',
-  }
-
-  async componentDidMount() {
-    const { email } = this.props;
-    const urlImageUser = await fetchApiGravatar(email);
-    this.setState({ image: urlImageUser });
-  }
-
   render() {
-    const { image } = this.state;
-    const { name, score } = this.props;
+    const { name, score, email } = this.props;
 
     return (
       <header>
@@ -24,7 +13,7 @@ class Header extends React.Component {
           <img
             data-testid="header-profile-picture"
             alt="userImage"
-            src={ image }
+            src={ `https://www.gravatar.com/avatar/${md5(email)}` }
           />
           <p data-testid="header-score">
             Placar:
