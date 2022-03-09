@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import Input from '../Components/Input';
@@ -13,6 +14,11 @@ class Login extends React.Component {
       isDisabled: true,
       token: '',
     }
+
+handleSettingClick = () => {
+  const { history } = this.props;
+  history.push('/settings');
+}
 
   handleChange = (event) => {
     const { target } = event;
@@ -83,11 +89,20 @@ class Login extends React.Component {
             Play
 
           </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.handleSettingClick }
+          >
+            Configurações
+          </button>
         </header>
       </div>
     );
   }
 }
+
+export default Login;
 
 Login.propTypes = {
   dataInfo: PropTypes.func.isRequired,
