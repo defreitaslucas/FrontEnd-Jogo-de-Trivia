@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import logo from '../trivia.png';
 import Input from '../Components/Input';
 
@@ -8,6 +9,11 @@ class Login extends React.Component {
       email: '',
       isDisabled: true,
     }
+
+handleSettingClick = () => {
+  const { history } = this.props;
+  history.push('/settings');
+}
 
   handleChange = (event) => {
     const { target } = event;
@@ -61,9 +67,22 @@ class Login extends React.Component {
             Play
 
           </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.handleSettingClick }
+          >
+            Configurações
+          </button>
         </header>
       </div>
     );
   }
 }
 export default Login;
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
