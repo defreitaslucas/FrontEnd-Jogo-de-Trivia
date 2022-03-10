@@ -16,17 +16,14 @@ export class Game extends Component {
       await getTokenApi();
       questions = await getQuestions();
     }
-    this.setState({
-      questions: questions.results,
-    }, () => {
-      const { saveQuestions } = this.props;
-      saveQuestions(questions.results);
-    });
+
+    const { saveQuestions } = this.props;
+    saveQuestions(questions.results);
   }
 
   render() {
-    const { questions } = this.state;
-    console.log(questions);
+    // const { questions } = this.state;
+    // console.log(questions);
     return (
       <div>
         <Header />
