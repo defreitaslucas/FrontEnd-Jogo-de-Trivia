@@ -12,13 +12,13 @@ export class Game extends Component {
 
   async componentDidMount() {
     let questions = await getQuestions();
-    if (!questions.results.length) {
+    if (!questions.length) {
       await getTokenApi();
       questions = await getQuestions();
     }
 
     const { saveQuestions } = this.props;
-    saveQuestions(questions.results);
+    saveQuestions(questions || []);
   }
 
   render() {

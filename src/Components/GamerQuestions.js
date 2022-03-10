@@ -1,29 +1,39 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-// const random = Math.floor(Math.random() * 5)
+import Loading from './Loading';
 
 class GamerQuestions extends Component {
-  randomQuestion = async () => {
+  randomQuestion = () => {
     const { questions } = this.props;
 
     const random = Math.floor(Math.random() * questions.length);
 
     const randomElement = questions[random];
 
-    this.setState({ questions: randomElement });
+    return randomElement;
   }
 
+  mountedQuestion = (objRandom) => (
+    <div>
+      <h1>{ objRandom.category }</h1>
+      <p>{ objRandom.question }</p>
+
+    </div>
+  )
+
   render() {
-    // const { questions } = this.state;
-    // console.log(randomQuestion);
-    // const { category, correct_answer: correctAnswer,
-    //   question: questionText, incorrect_answers: incorrectAnswers, type } = question;
-    // console.log(questions[this.randomQuestion()]?.category);
+    const objRandom = this.randomQuestion();
+    console.log(objRandom);
+
+    // const arr = [0, 1, 2, 3, 4];
+    // console.log();
     return (
       <div>
-        {/* <h1>{questions[this.randomQuestion()]?.category}</h1> */}
+        {
+          objRandom
+            ? this.mountedQuestion(objRandom) : <Loading />
+        }
 
       </div>
     );
