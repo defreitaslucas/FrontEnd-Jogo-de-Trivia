@@ -1,10 +1,13 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import GamerQuestions from '../Components/GamerQuestions';
 import Header from '../Components/Header';
+import { generateQuestions } from '../Redux/Actions';
 import { getQuestions, getTokenApi } from '../services/api';
 
 export class Game extends Component {
   state = {
-    questions: [],
   }
 
   async componentDidMount() {
@@ -15,6 +18,9 @@ export class Game extends Component {
     }
     this.setState({
       questions: questions.results,
+    }, () => {
+      const { saveQuestions } = this.props;
+      saveQuestions(questions.results);
     });
   }
 
@@ -24,9 +30,17 @@ export class Game extends Component {
     return (
       <div>
         <Header />
+        <GamerQuestions />
       </div>
     );
   }
 }
 
-export default Game;
+const mapDispatchToProps = (dispatch) => ({
+  saveQuestions: (payload) => dispatch(generateQuestions(payload)) });
+
+export default connect(null, mapDispatchToProps)(Game);
+
+Game.propTypes = {
+  saveQuestions: PropTypes.func.isRequired,
+};
