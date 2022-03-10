@@ -40,7 +40,6 @@ class GamerQuestions extends Component {
 
   mountedQuestion = (number) => {
     const { questions } = this.props;
-    console.log(questions[0]);
     // const options = [questions[number].incorrect_answers,
     //   questions[number]?.correct_answer];
     return (
