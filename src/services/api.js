@@ -1,6 +1,6 @@
 const API_TOKEN = 'https://opentdb.com/api_token.php?command=request';
 
-const MAGIC_NUMBER_05 = 0.5;
+export const MAGIC_NUMBER_05 = 0.5;
 
 export const getTokenApi = async () => {
   // const tokenStorage = JSON.parse(localStorage.getItem('token'));
@@ -10,6 +10,8 @@ export const getTokenApi = async () => {
   return requestJson;
 };
 
+// Shuffle retirado de:
+//  https://dev.to/codebubb/how-to-shuffle-an-array-in-javascript-2ikj#:~:text=The%20first%20and%20simplest%20way,)%20%3D%3E%200.5%20%2D%20Math.
 export const getQuestions = async () => {
   const tokenStorage = JSON.parse(localStorage.getItem('token'));
   const API_QUESTION = `https://opentdb.com/api.php?amount=5&token=${tokenStorage.token}`;
