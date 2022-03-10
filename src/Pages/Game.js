@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../Components/Header';
-import { getQuestions } from '../services/api';
+import { getQuestions, getTokenApi } from '../services/api';
 
 export class Game extends Component {
   state = {
@@ -8,7 +8,11 @@ export class Game extends Component {
   }
 
   async componentDidMount() {
-    const questions = await getQuestions();
+    let questions = await getQuestions();
+    if (!questions.results.length) {
+      await getTokenApi();
+      questions = await getQuestions();
+    }
     this.setState({
       questions: questions.results,
     });

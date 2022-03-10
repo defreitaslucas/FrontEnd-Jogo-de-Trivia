@@ -13,9 +13,5 @@ export const getQuestions = async () => {
   const API_QUESTION = `https://opentdb.com/api.php?amount=5&token=${tokenStorage.token}`;
   const questions = await fetch(API_QUESTION);
   const resultado = await questions.json();
-  if (!resultado.results.length) {
-    getTokenApi();
-    return resultado;
-  }
   return resultado;
 };
