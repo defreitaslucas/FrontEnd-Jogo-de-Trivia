@@ -2,10 +2,28 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MAGIC_NUMBER_05 } from '../services/api';
+import './css/answerStyle.css';
 
 class GamerQuestions extends Component {
   state = {
     counter: 0,
+    timer: 30,
+  }
+
+  handleClick = ({ target }) => {
+    const buttons = target.parentNode.childNodes;
+    buttons.forEach((button) => {
+      switch (button.className) {
+      case 'incorrect':
+        button.classList.add('incorrectRed');
+        break;
+      case 'correct':
+        button.classList.add('correctGreen');
+        break;
+      default:
+        break;
+      }
+    });
   }
 
   generateAnswers = (number) => {
@@ -20,6 +38,8 @@ class GamerQuestions extends Component {
           type="button"
           key={ index }
           data-testid={ dataTestId }
+          className="incorrect"
+          onClick={ this.handleClick }
         >
           {incorrectAnswer}
         </button>
@@ -30,6 +50,8 @@ class GamerQuestions extends Component {
         type="button"
         key={ correctAnswer }
         data-testid="correct-answer"
+        className="correct"
+        onClick={ this.handleClick }
       >
         {correctAnswer}
       </button>,
@@ -50,8 +72,9 @@ class GamerQuestions extends Component {
   }
 
   render() {
-    const { counter } = this.state;
+    const { counter, timer } = this.state;
     const { questions } = this.props;
+    console.log(timer);
     return (
       <div>
         {
