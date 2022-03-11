@@ -21,9 +21,10 @@ class GamerQuestions extends Component {
     buttonNext: false,
   }
 
-  pointRules = (difficulty, timeLeft) => {
-    const { dataInfo, name, email, token } = this.props;
-    const points = MAGIC_NUMBER_10 + (Number(timeLeft) * Number(difficulty));
+  pointRules = (difficulty) => {
+    const { dataInfo, name, email, token, timerValue } = this.props;
+    const points = MAGIC_NUMBER_10 + (Number(timerValue) * Number(difficulty));
+    console.log(points);
     this.setState((prevState) => ({
       name,
       email,
@@ -32,17 +33,17 @@ class GamerQuestions extends Component {
     }), () => dataInfo(this.state));
   }
 
-  sumPoints = (question, timeLeft) => {
+  sumPoints = (question) => {
     const difficulty = question.getAttribute('level');
     switch (difficulty) {
     case 'easy':
-      this.pointRules(1, timeLeft);
+      this.pointRules(1);
       break;
     case 'medium':
-      this.pointRules(2, timeLeft);
+      this.pointRules(2);
       break;
     case 'hard':
-      this.pointRules(MAGIC_NUMBER_3, timeLeft);
+      this.pointRules(MAGIC_NUMBER_3);
       break;
     default:
       break;
@@ -52,7 +53,6 @@ class GamerQuestions extends Component {
   handleClick = ({ target }) => {
     const { setAnswerButtonHasBeenClickedToTrue, name, email } = this.props;
     setAnswerButtonHasBeenClickedToTrue();
-    const currTimer = Number(target.parentNode.parentNode.parentNode.lastChild.innerText);
     const buttons = target.parentNode.childNodes;
     buttons.forEach((button) => {
       switch (button.className) {
@@ -61,7 +61,7 @@ class GamerQuestions extends Component {
         break;
       case 'correct':
         button.classList.add('correctGreen');
-        this.sumPoints(target, currTimer);
+        this.sumPoints(target);
         break;
       default:
         break;
@@ -87,9 +87,9 @@ class GamerQuestions extends Component {
           className="incorrect"
           disabled={ buttonDisable }
           onClick={ this.handleClick }
-        >
-          {incorrectAnswer}
-        </button>
+          dangerouslySetInnerHTML={ { __html: incorrectAnswer } }
+          label="buttonAnswerIncorrect"
+        />
       );
     });
     answers.push(
@@ -101,9 +101,9 @@ class GamerQuestions extends Component {
         disabled={ buttonDisable }
         onClick={ this.handleClick }
         level={ difficulty }
-      >
-        {correctAnswer}
-      </button>,
+        dangerouslySetInnerHTML={ { __html: correctAnswer } }
+        label="buttonAnswerCorrect"
+      />,
     );
     answers.sort(() => MAGIC_NUMBER_05 - Math.random());
     return answers;
@@ -132,7 +132,10 @@ class GamerQuestions extends Component {
     return (
       <div>
         <h1 data-testid="question-category">{questions[number].category}</h1>
-        <p data-testid="question-text">{questions[number].question}</p>
+        <p
+          dangerouslySetInnerHTML={ { __html: questions[number].question } }
+          data-testid="question-text"
+        />
         <div data-testid="answer-options">{this.generateAnswers(number)}</div>
       </div>
     );
@@ -163,6 +166,7 @@ GamerQuestions.propTypes = {
   email: PropTypes.string.isRequired,
   dataInfo: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
+  timerValue: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
