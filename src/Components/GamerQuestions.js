@@ -6,21 +6,20 @@ import md5 from 'crypto-js/md5';
 import { MAGIC_NUMBER_05 } from '../services/api';
 import './css/answerStyle.css';
 import Timer from './Timer';
-import { getAnswerButtonStatus, userInfo } from '../Redux/Actions';
+import { getAnswerButtonStatus, userInfo, getInitialButtonState } from '../Redux/Actions';
 
 const MAGIC_NUMBER_10 = 10;
 const MAGIC_NUMBER_3 = 3;
-
 class GamerQuestions extends Component {
-  state = {
-    name: '',
-    email: '',
-    counter: 0,
-    score: 0,
-    token: '',
-    buttonNext: false,
-    assertions: 0,
-  }
+    state = {
+      name: '',
+      email: '',
+      counter: 0,
+      score: 0,
+      token: '',
+      buttonNext: false,
+      assertions: 0,
+    };
 
   pointRules = (difficulty) => {
     const { dataInfo, name, email, token, timerValue } = this.props;
@@ -129,20 +128,30 @@ class GamerQuestions extends Component {
   )
 
   generateNextQuestion = () => {
+    const { buttonTimerInitial } = this.props;
     this.setState((prevState) => ({
       counter: prevState.counter + 1,
-    }));
+    }), () => buttonTimerInitial());
   }
 
   mountedQuestion = (number) => {
     const { questions } = this.props;
-    return (
-      <div>
-        <h1 data-testid="question-category">{questions[number].category}</h1>
-        <p data-testid="question-text">{questions[number].question}</p>
-        <div data-testid="answer-options">{this.generateAnswers(number)}</div>
-      </div>
-    );
+    if (questions.length - 1 >= number) {
+      return (
+        <div>
+          <h1 data-testid="question-category">{questions[number].category}</h1>
+          <p data-testid="question-text">{questions[number].question}</p>
+          <div data-testid="answer-options">{this.generateAnswers(number)}</div>
+        </div>
+      );
+    }
+    this.sendFeedbackPage();
+  }
+
+  sendFeedbackPage = () => {
+    const { history } = this.props;
+    console.log(history);
+    return history?.push('/feedback');
   }
 
   render() {
@@ -150,13 +159,13 @@ class GamerQuestions extends Component {
     const { questions } = this.props;
     return (
       <div>
-        <Timer />
         {
           questions.length && this.mountedQuestion(counter)
         }
         {
           buttonNext && this.generateButtonNext()
         }
+        <Timer />
       </div>
     );
   }
@@ -171,6 +180,10 @@ GamerQuestions.propTypes = {
   dataInfo: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
   timerValue: PropTypes.number.isRequired,
+  buttonTimerInitial: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -186,6 +199,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setAnswerButtonHasBeenClickedToTrue: () => dispatch(getAnswerButtonStatus()),
   dataInfo: (state) => dispatch(userInfo(state)),
+  buttonTimerInitial: () => dispatch(getInitialButtonState()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamerQuestions);

@@ -3,7 +3,7 @@ import { GET_BUTTON_STATE, GET_INITIAL_BUTTON_STATE,
 
 const INITIAL_STATE = {
   status: false,
-  timer: 0,
+  timer: 30,
 };
 
 const buttonState = (state = INITIAL_STATE, action) => {

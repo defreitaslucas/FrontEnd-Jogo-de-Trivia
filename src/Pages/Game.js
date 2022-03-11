@@ -22,10 +22,11 @@ export class Game extends Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <div>
         <Header />
-        <GamerQuestions />
+        <GamerQuestions history={ history } />
       </div>
     );
   }
@@ -37,5 +38,8 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(null, mapDispatchToProps)(Game);
 
 Game.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   saveQuestions: PropTypes.func.isRequired,
 };
