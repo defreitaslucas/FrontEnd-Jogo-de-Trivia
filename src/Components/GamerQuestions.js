@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MAGIC_NUMBER_05 } from '../services/api';
 import './css/answerStyle.css';
+import Timer from './Timer';
 
 class GamerQuestions extends Component {
   state = {
     counter: 0,
-    timer: 30,
   }
 
   handleClick = ({ target }) => {
@@ -27,7 +27,7 @@ class GamerQuestions extends Component {
   }
 
   generateAnswers = (number) => {
-    const { questions } = this.props;
+    const { questions, buttonDisable } = this.props;
     const currentQuestion = questions[number];
     const { incorrect_answers: incorrectAnswers,
       correct_answer: correctAnswer } = currentQuestion;
@@ -39,6 +39,7 @@ class GamerQuestions extends Component {
           key={ index }
           data-testid={ dataTestId }
           className="incorrect"
+          disabled={ buttonDisable }
           onClick={ this.handleClick }
         >
           {incorrectAnswer}
@@ -51,6 +52,7 @@ class GamerQuestions extends Component {
         key={ correctAnswer }
         data-testid="correct-answer"
         className="correct"
+        disabled={ buttonDisable }
         onClick={ this.handleClick }
       >
         {correctAnswer}
@@ -72,14 +74,14 @@ class GamerQuestions extends Component {
   }
 
   render() {
-    const { counter, timer } = this.state;
+    const { counter } = this.state;
     const { questions } = this.props;
-    console.log(timer);
     return (
       <div>
         {
           questions.length && this.mountedQuestion(counter)
         }
+        <Timer />
       </div>
     );
   }
@@ -87,10 +89,12 @@ class GamerQuestions extends Component {
 
 GamerQuestions.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  buttonDisable: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   questions: state.questions,
+  buttonDisable: state.buttonStateGame,
 });
 
 export default connect(mapStateToProps)(GamerQuestions);
