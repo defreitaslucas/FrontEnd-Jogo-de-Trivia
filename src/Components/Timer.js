@@ -18,20 +18,18 @@ export class Timer extends Component {
 
   componentDidUpdate() {
     const { timer } = this.state;
-    const { buttonStateTrue } = this.props;
+    const { buttonStateTrue, enableAnswersButton } = this.props;
     const zero = 0;
-    if (timer === zero) {
+    if (enableAnswersButton || timer === zero) {
       clearInterval(this.interval);
-      buttonStateTrue();
+      buttonStateTrue(timer);
     }
   }
 
   render() {
     const { timer } = this.state;
-    const { buttonStateTrue } = this.props;
-    console.log(buttonStateTrue);
     return (
-      <div>
+      <div id="timer">
         { timer }
       </div>
     );
@@ -40,12 +38,16 @@ export class Timer extends Component {
 
 Timer.propTypes = {
   buttonStateTrue: PropTypes.func.isRequired,
-  // buttonStateFalse: PropTypes.func.isRequired,
+  enableAnswersButton: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = (state) => ({
+  enableAnswersButton: state.buttonStateGame.status,
+});
+
 const mapDispatchToProps = (dispatch) => ({
-  buttonStateTrue: () => dispatch(getButtonState()),
+  buttonStateTrue: (payload) => dispatch(getButtonState(payload)),
   // buttonStateFalse: () => dispatch(getInitialButtonState()),
 });
 
-export default connect(null, mapDispatchToProps)(Timer);
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);

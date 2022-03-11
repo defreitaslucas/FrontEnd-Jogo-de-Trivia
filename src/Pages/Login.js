@@ -10,6 +10,8 @@ class Login extends React.Component {
     state = {
       name: '',
       email: '',
+      assertions: 0,
+      score: 0,
       isDisabled: true,
       token: '',
     }
