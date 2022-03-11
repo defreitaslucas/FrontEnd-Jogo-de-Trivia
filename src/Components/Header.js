@@ -30,7 +30,6 @@ const mapStateToProps = (state) => ({
   email: state.player.gravatarEmail,
   name: state.player.name,
   score: state.player.score,
-
 });
 
 export default connect(mapStateToProps)(Header);
