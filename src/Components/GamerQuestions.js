@@ -1,37 +1,47 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 // import { getOptionClick } from '../Redux/Actions';
 import { MAGIC_NUMBER_05 } from '../services/api';
 import './css/answerStyle.css';
 import Timer from './Timer';
+import { getAnswerButtonStatus, userInfo } from '../Redux/Actions';
 
 const MAGIC_NUMBER_10 = 10;
 const MAGIC_NUMBER_3 = 3;
 
 class GamerQuestions extends Component {
   state = {
+    name: '',
+    email: '',
     counter: 0,
-    points: 0,
-    timeLeft: 0,
+    score: 0,
+    token: '',
   }
 
   pointRules = (difficulty, timeLeft) => {
-    const points = MAGIC_NUMBER_10 + (timeLeft * difficulty);
-    return Number(points);
+    const { dataInfo, name, email, token } = this.props;
+    const points = MAGIC_NUMBER_10 + (Number(timeLeft) * Number(difficulty));
+    this.setState((prevState) => ({
+      name,
+      email,
+      score: prevState.score + points,
+      token,
+    }), () => dataInfo(this.state));
   }
 
   sumPoints = (question, timeLeft) => {
     const difficulty = question.getAttribute('level');
     switch (difficulty) {
     case 'easy':
-      console.log(this.pointRules(1, timeLeft));
+      this.pointRules(1, timeLeft);
       break;
     case 'medium':
-      console.log(this.pointRules(2, timeLeft));
+      this.pointRules(2, timeLeft);
       break;
     case 'hard':
-      console.log(this.pointRules(MAGIC_NUMBER_3, timeLeft));
+      this.pointRules(MAGIC_NUMBER_3, timeLeft);
       break;
     default:
       break;
@@ -39,8 +49,9 @@ class GamerQuestions extends Component {
   }
 
   handleClick = ({ target }) => {
-    const { timerValue } = this.props;
-
+    const { setAnswerButtonHasBeenClickedToTrue, name, email } = this.props;
+    setAnswerButtonHasBeenClickedToTrue();
+    const currTimer = Number(target.parentNode.parentNode.parentNode.lastChild.innerText);
     const buttons = target.parentNode.childNodes;
     buttons.forEach((button) => {
       switch (button.className) {
@@ -49,12 +60,14 @@ class GamerQuestions extends Component {
         break;
       case 'correct':
         button.classList.add('correctGreen');
-        this.sumPoints(target, timerValue);
+        this.sumPoints(target, currTimer);
         break;
       default:
         break;
       }
     });
+    const { points } = this.state;
+    localStorage.setItem('ranking', JSON.stringify([{ name, score: points, picture: `https://www.gravatar.com/avatar/${md5(email)}` }]));
   }
 
   generateAnswers = (number) => {
@@ -122,13 +135,26 @@ class GamerQuestions extends Component {
 GamerQuestions.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   buttonDisable: PropTypes.bool.isRequired,
-  optionSelected: PropTypes.number.isRequired,
-  timerValue: PropTypes.number.isRequired,
+  setAnswerButtonHasBeenClickedToTrue: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  dataInfo: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   questions: state.questions,
-  buttonDisable: state.buttonStateGame,
+  buttonDisable: state.buttonStateGame.status,
+  timerValue: state.buttonStateGame.timer,
+  email: state.player.gravatarEmail,
+  name: state.player.name,
+  score: state.player.score,
+  token: state.token,
 });
 
-export default connect(mapStateToProps)(GamerQuestions);
+const mapDispatchToProps = (dispatch) => ({
+  setAnswerButtonHasBeenClickedToTrue: () => dispatch(getAnswerButtonStatus()),
+  dataInfo: (state) => dispatch(userInfo(state)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GamerQuestions);
