@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import Input from '../Components/Input';
 import { userInfo } from '../Redux/Actions';
-import { fetchApiToken } from '../services/api';
+import { getTokenApi } from '../services/api';
 
 class Login extends React.Component {
     state = {
@@ -40,16 +40,12 @@ handleSettingClick = () => {
   }
 
   handleClick = async () => {
-    await this.fetchApi();
-  }
-
-  fetchApi = async () => {
+    const { history } = this.props;
     const { dataInfo } = this.props;
-    const resultado = await fetchApiToken();
-    this.setState(() => ({
-      token: resultado,
-    }), () => {
-      const { history } = this.props;
+    const resultado = await getTokenApi();
+    this.setState({
+      token: resultado.token,
+    }, () => {
       dataInfo(this.state);
       history.push('/game');
     });
