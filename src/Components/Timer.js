@@ -9,21 +9,34 @@ export class Timer extends Component {
   }
 
   componentDidMount() {
-    const numberInterval = 1000;
-    this.interval = setInterval(() => {
-      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
-    }, numberInterval);
-    // buttonStateFalse(buttonDisable);
+    this.count();
   }
 
-  componentDidUpdate() {
-    const { timer } = this.state;
+  componentDidUpdate(prevProps) {
+    const { interval, timer } = this.state;
     const { buttonStateTrue, enableAnswersButton } = this.props;
     const zero = 0;
     if (enableAnswersButton || timer === zero) {
-      clearInterval(this.interval);
+      clearInterval(interval);
       buttonStateTrue(timer);
     }
+    if (enableAnswersButton !== prevProps.enableAnswersButton) {
+      this.resetTimer();
+    }
+  }
+
+  count = () => {
+    const numberInterval = 1000;
+    const interval = setInterval(() => {
+      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+    }, numberInterval);
+    this.setState({ interval });
+  }
+
+  resetTimer = () => {
+    this.setState(() => ({
+      timer: 30,
+    }), this.count());
   }
 
   render() {
@@ -43,6 +56,7 @@ Timer.propTypes = {
 
 const mapStateToProps = (state) => ({
   enableAnswersButton: state.buttonStateGame.status,
+  timer: state.buttonStateGame.timer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
