@@ -8,6 +8,7 @@ import Timer from './Timer';
 class GamerQuestions extends Component {
   state = {
     counter: 0,
+    buttonNext: false,
   }
 
   handleClick = ({ target }) => {
@@ -24,6 +25,7 @@ class GamerQuestions extends Component {
         break;
       }
     });
+    this.setState({ buttonNext: true });
   }
 
   generateAnswers = (number) => {
@@ -62,6 +64,24 @@ class GamerQuestions extends Component {
     return answers;
   }
 
+  generateButtonNext = () => (
+    <div>
+      <button
+        data-testid="btn-next"
+        type="button"
+        onClick={ this.generateNextQuestion }
+      >
+        Next
+      </button>
+    </div>
+  )
+
+  generateNextQuestion = () => {
+    this.setState((prevState) => ({
+      counter: prevState.counter + 1,
+    }));
+  }
+
   mountedQuestion = (number) => {
     const { questions } = this.props;
     return (
@@ -74,14 +94,17 @@ class GamerQuestions extends Component {
   }
 
   render() {
-    const { counter } = this.state;
+    const { counter, buttonNext } = this.state;
     const { questions } = this.props;
     return (
       <div>
+        <Timer />
         {
           questions.length && this.mountedQuestion(counter)
         }
-        <Timer />
+        {
+          buttonNext && this.generateButtonNext()
+        }
       </div>
     );
   }
