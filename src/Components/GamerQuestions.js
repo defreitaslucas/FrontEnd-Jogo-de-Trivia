@@ -87,9 +87,11 @@ class GamerQuestions extends Component {
           className="incorrect"
           disabled={ buttonDisable }
           onClick={ this.handleClick }
-          dangerouslySetInnerHTML={ { __html: incorrectAnswer } }
-          label="buttonAnswerIncorrect"
-        />
+
+        >
+          {incorrectAnswer}
+
+        </button>
       );
     });
     answers.push(
@@ -101,9 +103,10 @@ class GamerQuestions extends Component {
         disabled={ buttonDisable }
         onClick={ this.handleClick }
         level={ difficulty }
-        dangerouslySetInnerHTML={ { __html: correctAnswer } }
-        label="buttonAnswerCorrect"
-      />,
+      >
+        {correctAnswer}
+
+      </button>,
     );
     answers.sort(() => MAGIC_NUMBER_05 - Math.random());
     return answers;
