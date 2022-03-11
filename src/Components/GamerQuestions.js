@@ -19,6 +19,7 @@ class GamerQuestions extends Component {
     score: 0,
     token: '',
     buttonNext: false,
+    assertions: 0,
   }
 
   pointRules = (difficulty) => {
@@ -62,6 +63,9 @@ class GamerQuestions extends Component {
       case 'correct':
         button.classList.add('correctGreen');
         this.sumPoints(target);
+        this.setState((prevState) => ({
+          assertions: prevState.assertions + 1,
+        }));
         break;
       default:
         break;
@@ -135,10 +139,7 @@ class GamerQuestions extends Component {
     return (
       <div>
         <h1 data-testid="question-category">{questions[number].category}</h1>
-        <p
-          dangerouslySetInnerHTML={ { __html: questions[number].question } }
-          data-testid="question-text"
-        />
+        <p data-testid="question-text">{questions[number].question}</p>
         <div data-testid="answer-options">{this.generateAnswers(number)}</div>
       </div>
     );
