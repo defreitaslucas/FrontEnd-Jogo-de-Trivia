@@ -18,6 +18,7 @@ class GamerQuestions extends Component {
     counter: 0,
     score: 0,
     token: '',
+    buttonNext: false,
   }
 
   pointRules = (difficulty, timeLeft) => {
@@ -68,6 +69,7 @@ class GamerQuestions extends Component {
     });
     const { points } = this.state;
     localStorage.setItem('ranking', JSON.stringify([{ name, score: points, picture: `https://www.gravatar.com/avatar/${md5(email)}` }]));
+     this.setState({ buttonNext: true });
   }
 
   generateAnswers = (number) => {
@@ -107,6 +109,24 @@ class GamerQuestions extends Component {
     return answers;
   }
 
+  generateButtonNext = () => (
+    <div>
+      <button
+        data-testid="btn-next"
+        type="button"
+        onClick={ this.generateNextQuestion }
+      >
+        Next
+      </button>
+    </div>
+  )
+
+  generateNextQuestion = () => {
+    this.setState((prevState) => ({
+      counter: prevState.counter + 1,
+    }));
+  }
+
   mountedQuestion = (number) => {
     const { questions } = this.props;
     return (
@@ -119,14 +139,17 @@ class GamerQuestions extends Component {
   }
 
   render() {
-    const { counter } = this.state;
+    const { counter, buttonNext } = this.state;
     const { questions } = this.props;
     return (
       <div>
+        <Timer />
         {
           questions.length && this.mountedQuestion(counter)
         }
-        <Timer />
+        {
+          buttonNext && this.generateButtonNext()
+        }
       </div>
     );
   }
