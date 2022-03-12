@@ -24,7 +24,6 @@ class Header extends React.Component {
             alt="userImage"
             src={ `https://www.gravatar.com/avatar/${md5(email)}` }
           />
-          <span>Placar:</span>
           <p data-testid="header-score">
             { score }
           </p>
