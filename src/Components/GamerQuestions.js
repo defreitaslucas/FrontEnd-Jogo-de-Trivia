@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import he from 'he';
 import { MAGIC_NUMBER_05 } from '../services/api';
-import './css/answerStyle.css';
+import './css/GamerQuestions.css';
 import Timer from './Timer';
 import { getAnswerButtonStatus, userInfo, getInitialButtonState } from '../Redux/Actions';
 
