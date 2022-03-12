@@ -20,6 +20,11 @@ export class Feedback extends Component {
     }
   }
 
+  handleClickGame = () => {
+    const { history } = this.props;
+    history.push('/');
+  }
+
   render() {
     const { mensage } = this.state;
     const { score, assertions } = this.props;
@@ -33,6 +38,13 @@ export class Feedback extends Component {
         <p data-testid="feedback-total-score">{ score }</p>
         <p>Questões Acertadas:</p>
         <p data-testid="feedback-total-question">{ assertions }</p>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ this.handleClickGame }
+        >
+          Play Again!
+        </button>
       </>
     );
   }
@@ -41,6 +53,9 @@ export class Feedback extends Component {
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
