@@ -21,12 +21,6 @@ class GamerQuestions extends Component {
       assertions: 0,
     };
 
-generateImutableQuestions = () => {
-  const { questions } = this.props;
-  const arrOfQuestions = questions;
-  return arrOfQuestions;
-}
-
   pointRules = (difficulty) => {
     const { dataInfo, name, email, token, timerValue } = this.props;
     const points = MAGIC_NUMBER_10 + (Number(timerValue) * Number(difficulty));
