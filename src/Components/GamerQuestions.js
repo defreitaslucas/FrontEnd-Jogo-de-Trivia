@@ -69,8 +69,8 @@ class GamerQuestions extends Component {
         break;
       }
     });
-    const { points } = this.state;
-    localStorage.setItem('ranking', JSON.stringify([{ name, score: points, picture: `https://www.gravatar.com/avatar/${md5(email)}` }]));
+    const { score } = this.state;
+    localStorage.setItem('ranking', JSON.stringify([{ name, score, picture: `https://www.gravatar.com/avatar/${md5(email)}` }]));
     this.setState({ buttonNext: true });
   }
 

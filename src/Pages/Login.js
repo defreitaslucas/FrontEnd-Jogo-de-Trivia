@@ -56,9 +56,9 @@ handleSettingClick = () => {
   render() {
     const { name, email, isDisabled } = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
+      <div className="login-main">
+        <header className="login-forms">
+          <img src={ logo } className="login-logo" alt="logo" />
           <Input
             type="text"
             datatestid="input-player-name"
