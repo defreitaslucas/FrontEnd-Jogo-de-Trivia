@@ -25,6 +25,11 @@ export class Feedback extends Component {
     history.push('/');
   }
 
+  handleClickRanking = () => {
+    const { history } = this.props;
+    history.push('/ranking');
+  }
+
   render() {
     const { mensage } = this.state;
     const { score, assertions } = this.props;
@@ -44,6 +49,13 @@ export class Feedback extends Component {
           onClick={ this.handleClickGame }
         >
           Play Again!
+        </button>
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ this.handleClickRanking }
+        >
+          Ranking
         </button>
       </>
     );
