@@ -24,7 +24,6 @@ class GamerQuestions extends Component {
   pointRules = (difficulty) => {
     const { dataInfo, name, email, token, timerValue } = this.props;
     const points = MAGIC_NUMBER_10 + (Number(timerValue) * Number(difficulty));
-    console.log(points);
     this.setState((prevState) => ({
       name,
       email,
@@ -150,7 +149,6 @@ class GamerQuestions extends Component {
 
   sendFeedbackPage = () => {
     const { history } = this.props;
-    console.log(history);
     return history?.push('/feedback');
   }
 
@@ -174,7 +172,7 @@ class GamerQuestions extends Component {
 GamerQuestions.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   buttonDisable: PropTypes.bool.isRequired,
-  setAnswerButtonHasBeenClickedToTrue: PropTypes.bool.isRequired,
+  setAnswerButtonHasBeenClickedToTrue: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   dataInfo: PropTypes.func.isRequired,

@@ -51,7 +51,7 @@ export class Timer extends Component {
 
 Timer.propTypes = {
   buttonStateTrue: PropTypes.func.isRequired,
-  enableAnswersButton: PropTypes.func.isRequired,
+  enableAnswersButton: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
