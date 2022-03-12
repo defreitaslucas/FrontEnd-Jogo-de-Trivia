@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
-// import { getOptionClick } from '../Redux/Actions';
+import he from 'he';
 import { MAGIC_NUMBER_05 } from '../services/api';
-import './css/answerStyle.css';
+import './css/GamerQuestions.css';
 import Timer from './Timer';
 import { getAnswerButtonStatus, userInfo, getInitialButtonState } from '../Redux/Actions';
 
@@ -91,7 +91,7 @@ class GamerQuestions extends Component {
           onClick={ this.handleClick }
 
         >
-          {incorrectAnswer}
+          {he.decode(incorrectAnswer)}
 
         </button>
       );
@@ -106,12 +106,11 @@ class GamerQuestions extends Component {
         onClick={ this.handleClick }
         level={ difficulty }
       >
-        {correctAnswer}
+        {he.decode(correctAnswer)}
 
       </button>,
     );
-    answers.sort(() => MAGIC_NUMBER_05 - Math.random());
-    return answers;
+    return answers.sort(() => MAGIC_NUMBER_05 - Math.random());
   }
 
   generateButtonNext = () => (
@@ -139,7 +138,7 @@ class GamerQuestions extends Component {
       return (
         <div>
           <h1 data-testid="question-category">{questions[number].category}</h1>
-          <p data-testid="question-text">{questions[number].question}</p>
+          <p data-testid="question-text">{he.decode(questions[number].question)}</p>
           <div data-testid="answer-options">{this.generateAnswers(number)}</div>
         </div>
       );
