@@ -7,6 +7,7 @@ import { MAGIC_NUMBER_05 } from '../services/api';
 import './css/GamerQuestions.css';
 import Timer from './Timer';
 import { getAnswerButtonStatus, userInfo, getInitialButtonState } from '../Redux/Actions';
+import { getRanking, addUserInRanking } from '../services/localStorage';
 
 const MAGIC_NUMBER_10 = 10;
 const MAGIC_NUMBER_3 = 3;
@@ -20,6 +21,10 @@ class GamerQuestions extends Component {
       buttonNext: false,
       assertions: 0,
     };
+
+    componentDidMount() {
+      getRanking();
+    }
 
   pointRules = (difficulty) => {
     const { dataInfo, name, email, token, timerValue } = this.props;
@@ -50,7 +55,7 @@ class GamerQuestions extends Component {
   }
 
   handleClick = ({ target }) => {
-    const { setAnswerButtonHasBeenClickedToTrue, name, email } = this.props;
+    const { setAnswerButtonHasBeenClickedToTrue } = this.props;
     setAnswerButtonHasBeenClickedToTrue();
     const buttons = target.parentNode.childNodes;
     buttons.forEach((button) => {
@@ -69,8 +74,7 @@ class GamerQuestions extends Component {
         break;
       }
     });
-    const { score } = this.state;
-    localStorage.setItem('ranking', JSON.stringify([{ name, score, picture: `https://www.gravatar.com/avatar/${md5(email)}` }]));
+    // localStorage.setItem('ranking', JSON.stringify([{ name, score, picture: `https://www.gravatar.com/avatar/${md5(email)}` }]));
     this.setState({ buttonNext: true });
   }
 
@@ -147,8 +151,15 @@ class GamerQuestions extends Component {
   }
 
   sendFeedbackPage = () => {
+    this.saveUserInLocalStorage();
     const { history } = this.props;
     return history?.push('/feedback');
+  }
+
+  saveUserInLocalStorage = () => {
+    const { score, name, email } = this.state;
+    const lsObj = { name, score, picture: `https://www.gravatar.com/avatar/${md5(email)}` };
+    addUserInRanking(lsObj);
   }
 
   render() {
