@@ -134,7 +134,23 @@ class GamerQuestions extends Component {
     </div>
   )
 
-  generateNextQuestion = () => {
+  generateNextQuestion = ({ target }) => {
+    const answerButtons = target.parentNode.previousSibling.lastChild.childNodes;
+    answerButtons.forEach((button) => {
+      switch (button.className) {
+      case 'incorrect incorrectRed':
+        button.classList.remove('incorrect', 'incorrectRed');
+        button.classList.add('incorrect');
+        console.log('teste');
+        break;
+      case 'correct correctGreen':
+        button.classList.remove('correct', 'correctGreen');
+        button.classList.remove('correctGreen');
+        break;
+      default:
+        break;
+      }
+    });
     const { buttonTimerInitial } = this.props;
     this.setState((prevState) => ({
       counter: prevState.counter + 1,
