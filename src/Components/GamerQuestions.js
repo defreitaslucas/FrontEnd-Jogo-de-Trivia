@@ -7,7 +7,7 @@ import { MAGIC_NUMBER_05 } from '../services/api';
 import './css/GamerQuestions.css';
 import Timer from './Timer';
 import { getAnswerButtonStatus, userInfo, getInitialButtonState } from '../Redux/Actions';
-import { getRanking, addUserInRanking } from '../services/localStorage';
+import { addUserInRanking } from '../services/localStorage';
 
 const MAGIC_NUMBER_10 = 10;
 const MAGIC_NUMBER_3 = 3;
@@ -23,7 +23,12 @@ class GamerQuestions extends Component {
     };
 
     componentDidMount() {
-      getRanking();
+      const { name, email, token } = this.props;
+      this.setState({
+        name,
+        email,
+        token,
+      });
     }
 
   pointRules = (difficulty) => {

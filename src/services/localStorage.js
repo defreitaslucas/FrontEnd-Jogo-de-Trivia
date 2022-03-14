@@ -6,21 +6,21 @@ if (!JSON.parse(localStorage.getItem(RANKING))) {
 }
 export const readRanking = () => JSON.parse(localStorage.getItem(RANKING));
 
+// export const getRanking = () => {
+//   readRanking();
+// };
+
 const saveFavoriteUser = (ranking) => localStorage
   .setItem(RANKING, JSON.stringify(ranking));
 
-export const getRanking = () => {
-  readRanking();
-};
-
 export const addUserInRanking = (user) => {
   if (user) {
-    const ranking = readRanking();
+    const ranking = readRanking() || [];
     saveFavoriteUser([...ranking, user]);
   }
 };
 
-export const removeUserInRaking = (user) => {
-  const ranking = readRanking();
-  saveFavoriteUser(ranking.filter((u) => u.name !== user.name));
-};
+// export const removeUserInRaking = (user) => {
+//   const ranking = readRanking();
+//   saveFavoriteUser(ranking.filter((u) => u.name !== user.name));
+// };
