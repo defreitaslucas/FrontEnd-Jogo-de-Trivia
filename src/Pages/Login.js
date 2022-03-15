@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGears, faPlay } from '@fortawesome/free-solid-svg-icons';
 import logo from '../trivia.png';
 import Input from '../Components/Input';
 import { userInfo } from '../Redux/Actions';
@@ -59,40 +61,52 @@ handleSettingClick = () => {
       <div className="login-main">
         <header className="login-forms">
           <img src={ logo } className="login-logo" alt="logo" />
-          <Input
-            type="text"
-            datatestid="input-player-name"
-            onChange={ (event) => this.handleChange(event) }
-            value={ name }
-            placeholder="Nome"
-            name="name"
-            required
-          />
-          <Input
-            type="text"
-            datatestid="input-gravatar-email"
-            onChange={ (event) => this.handleChange(event) }
-            value={ email }
-            placeholder="Email"
-            name="email"
-            required
-          />
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ isDisabled }
-            onClick={ this.handleClick }
-          >
-            Play
-
-          </button>
-          <button
-            type="button"
-            data-testid="btn-settings"
-            onClick={ this.handleSettingClick }
-          >
-            Configurações
-          </button>
+          <div className="login-inputs">
+            <Input
+              type="text"
+              datatestid="input-player-name"
+              onChange={ (event) => this.handleChange(event) }
+              value={ name }
+              placeholder="Nome"
+              name="name"
+              id="login-name-input"
+              labelClass="login-name-label"
+              required
+            />
+            <Input
+              type="text"
+              datatestid="input-gravatar-email"
+              onChange={ (event) => this.handleChange(event) }
+              value={ email }
+              placeholder="Email"
+              name="email"
+              id="login-email-input"
+              labelClass="login-email-label"
+              required
+            />
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ isDisabled }
+              onClick={ this.handleClick }
+              className="login-play-button"
+            >
+              Play
+              {' '}
+              <FontAwesomeIcon icon={ faPlay } />
+              <span />
+            </button>
+            <button
+              type="button"
+              data-testid="btn-settings"
+              onClick={ this.handleSettingClick }
+              className="login-settings-button"
+            >
+              Configurações
+              {' '}
+              <FontAwesomeIcon icon={ faGears } />
+            </button>
+          </div>
         </header>
       </div>
     );

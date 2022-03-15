@@ -5,7 +5,7 @@ import Header from '../Components/Header';
 
 export class Feedback extends Component {
   state = {
-    mensage: 'Well Done!',
+    message: 'Well Done!',
   }
 
   componentDidMount() {
@@ -16,7 +16,7 @@ export class Feedback extends Component {
     const { assertions } = this.props;
     const number = 3;
     if (assertions < number) {
-      this.setState({ mensage: 'Could be better...' });
+      this.setState({ message: 'Could be better...' });
     }
   }
 
@@ -31,32 +31,43 @@ export class Feedback extends Component {
   }
 
   render() {
-    const { mensage } = this.state;
+    const { message } = this.state;
     const { score, assertions } = this.props;
     return (
       <>
         <Header />
-        <div data-testid="feedback-text">
-          { mensage }
+        <div className="feedback-main">
+          <p data-testid="feedback-text" className="feedback-message">
+            { message }
+          </p>
+          <div className="total-score">
+            <p>Pontuação Total:</p>
+            <p data-testid="feedback-total-score">
+              { score }
+            </p>
+          </div>
+          <div className="total-assertion">
+            <p>Questões Acertadas:</p>
+            <p data-testid="feedback-total-question" className="total-assertion">
+              {' '}
+              { assertions }
+            </p>
+          </div>
+          <button
+            type="button"
+            data-testid="btn-ranking"
+            onClick={ this.handleClickRanking }
+          >
+            Ver ranking
+          </button>
+          <button
+            type="button"
+            data-testid="btn-play-again"
+            onClick={ this.handleClickGame }
+          >
+            Play Again!
+          </button>
         </div>
-        <p>Pontuação Total:</p>
-        <p data-testid="feedback-total-score">{ score }</p>
-        <p>Questões Acertadas:</p>
-        <p data-testid="feedback-total-question">{ assertions }</p>
-        <button
-          type="button"
-          data-testid="btn-play-again"
-          onClick={ this.handleClickGame }
-        >
-          Play Again!
-        </button>
-        <button
-          type="button"
-          data-testid="btn-ranking"
-          onClick={ this.handleClickRanking }
-        >
-          Ranking
-        </button>
       </>
     );
   }

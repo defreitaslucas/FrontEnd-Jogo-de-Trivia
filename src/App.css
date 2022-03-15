@@ -1,3 +1,85 @@
+/* From cssbuttons.io by @2Fl00rian6 */
+.login-inputs button {
+  background-color: rgb(20, 87, 244);
+  border: 1px solid rgb(20, 87, 244);
+  border-radius: 7px;
+  color: white;
+  font-size: 18px;
+  height: 45px;
+  padding: 12px 20px;
+  transition: 0.3s;
+  width: 100%;
+}
+
+/* From cssbuttons.io by @adamgiebl */
+.game-options button {
+  background-color: #312ecc;
+  border-bottom: 5px solid #2734ae;
+  border-radius: 1em;
+  color: white;
+  float: left;
+  font-size: 40px;
+  height: 3em;
+  margin: 0 10px 10px 0;
+  padding: 10px 40px;
+  position: relative;
+  text-decoration: none;
+  transition: all 0.1s;
+  width: 15em;
+}
+
+.feedback-main button {
+  align-items: center;
+  background-color: #e4d341;
+  border-radius: 15px;
+  color: white;
+  display: flex;
+  float: left;
+  font-size: 30px;
+  height: 2em;
+  justify-content: center;
+  margin-bottom: 1em;
+  position: relative;
+  text-decoration: none;
+  transition: all 0.1s;
+  width: 10em;
+}
+
+.ranking-header button {
+  align-items: center;
+  border-radius: 8px;
+  display: flex;
+  float: left;
+  font-size: 20px;
+  justify-content: center;
+  position: absolute;
+  right: 8em;
+  text-decoration: none;
+  top: 1.5em;
+  transition: all 0.1s;
+}
+
+.ranking-header button:hover {
+  transform: translate(0, 5px);
+}
+
+
+.feedback-main button:hover {
+  border-bottom: 1px solid #e4d341;
+  transform: translate(0, 5px);
+}
+
+.game-options button:hover {
+  border-bottom: 1px solid #312ecc;
+  transform: translate(0, 5px);
+}
+
+.login-inputs button:hover {
+  background-color: transparent;
+  border: 1px solid rgb(20, 87, 244);
+  color: rgb(20, 87, 244);
+}
+
 .login-main {
   align-items: center;
   background-color: #282c34;
@@ -13,31 +95,247 @@
 .login-forms {
   align-items: center;
   background-color: #282c34;
+  border: 5px solid white;
+  border-radius: 30px;
   color: white;
   display: flex;
   flex-direction: column;
   font-size: calc(10px + 2vmin);
-  justify-content: center;
-  min-height: 15em;
-  min-width: 15em;
+  justify-content: space-evenly;
+  min-height: 20em;
+  min-width: 20em;
 }
 
 .login-logo {
-  height: 10vmin;
+  height: 5em;
   pointer-events: none;
 }
 
-.red-border {
-  border: 1px solid red;
+.login-inputs {
+  display: flex;
+  flex-direction: column;
+  width: 16em;
 }
 
-.green-border {
-  border: 1px solid green;
+.correct.correctGreen {
+  background-color: rgb(2, 184, 8);
+  border: 3px solid rgb(6, 240, 15);
+  border-radius: 1em;
+  color: white;
+  float: left;
+  font-size: 40px;
+  height: 3em;
+  margin: 0 10px 10px 0;
+  padding: 10px 40px;
+  position: relative;
+  text-decoration: none;
+  transition: all 0.1s;
+  width: 15em;
 }
+
+.incorrect.incorrectRed {
+  background-color: rgb(160, 1, 1);
+  border: 3px solid red;
+  border-radius: 1em;
+  color: white;
+  float: left;
+  font-size: 40px;
+  height: 3em;
+  margin: 0 10px 10px 0;
+  padding: 10px 40px;
+  position: relative;
+  text-decoration: none;
+  transition: all 0.1s;
+  width: 15em;
+}
+
+.login-inputs input {
+  border: 0;
+  border-radius: 8px;
+  font-size: 18px;
+  height: 40px;
+  padding: 0 0 0 10px;
+  width: 100%;
+}
+
+.login-inputs button:focus {
+  box-shadow: 0 0 0 5px rgba(20, 87, 244, 0.37) , 0 0 0 10px rgba(20, 87, 244, 0.38);
+  outline: none;
+}
+
+.login-play-button {
+  margin-top: 1em;
+}
+
+.login-settings-button {
+  margin-top: 1em;
+
+}
+
+.login-email-input {
+  margin-bottom: 10em;
+}
+
+.login-email-label {
+  margin-top: 0.5em;
+}
+
+header {
+  align-items: center;
+  background-color: rgb(20, 87, 244);
+  color: white;
+  display: flex;
+  font-size: 24px;
+  justify-content: space-between;
+  margin: 0;
+  padding: 1em;
+}
+
+.player_info img {
+  border-radius: 100%;
+}
+
+header .player_info {
+  display: flex;
+  justify-content: space-between;
+}
+
+header .player_info img {
+  height: 3.5em;
+}
+
+header p {
+  margin-right: 1em;
+}
+
+.player_info p {
+  margin-left: 2em;
+}
+
+.game-div {
+  color: white;
+  height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+.game-div .question-category {
+  align-items: center;
+  background-color: white;
+  border-radius: 20px;
+  color: #282c34;
+  display: flex;
+  font-size: 40px;
+  height: 2em;
+  margin: 1em 0 0.5em 3em;
+  max-width: 20em;
+  min-width: 10em;
+  padding-left: 1em;
+  width: auto;
+}
+
+.game-div .game-question {
+  font-size: 40px;
+  width: 90vw;
+}
+
+.question-and-answers {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 25em;
+}
+
+.game-options {
+  width: 64vw;
+}
+
+.timer {
+  font-size: 24px;
+}
+
+.next-button {
+  background-color: #e4d341;
+  border-bottom: 3px solid #ebdb4e;
+  border-radius: 15px;
+  color: white;
+  display: flex;
+  float: left;
+  font-size: 30px;
+  margin: 0 10px 10px 85vw;
+  padding: 10px 40px;
+  position: relative;
+  text-decoration: none;
+  text-shadow: 0 -2px #e4d341;
+  transition: all 0.1s;
+}
+
+.next-button:hover {
+  border-bottom: 1px solid #e4d341;
+  transform: translate(0, 5px);
+}
+
+.feedback-main {
+  align-items: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.feedback-message {
+  font-size: 40px;
+}
+
+.total-score {
+  display: flex;
+  font-size: 30px;
+}
+
+.total-assertion {
+  display: flex;
+  font-size: 40px;
+}
+
+.ranking-header {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.ranking-main ul {
+  color: white;
+  list-style-type: none;
+  margin: 3em 30em 0;
+  padding: 0;
+}
+
+.ranking-main li {
+  align-items: center;
+  appearance: none;
+  border: 1px solid white;
+  display: flex;
+  height: 7em;
+  justify-content: space-around;
+}
+
+.ranking-main li img {
+  border-radius: 100%;
+  display: inline-flex;
+}
+
+.ranking-main li p {
+  border-radius: 100%;
+  display: inline-flex;
+  width: 100px;
+}
+
 
 @media ( prefers-reduced-motion : no-preference ) {
 
-  .App-logo {
+  .login-logo {
     animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   }
 }

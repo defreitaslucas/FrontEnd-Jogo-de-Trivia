@@ -24,10 +24,10 @@ export class Game extends Component {
   render() {
     const { history } = this.props;
     return (
-      <div>
+      <>
         <Header />
         <GamerQuestions history={ history } />
-      </div>
+      </>
     );
   }
 }
