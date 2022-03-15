@@ -8,7 +8,7 @@
   height: 45px;
   padding: 12px 20px;
   transition: 0.3s;
-  width: 100%;
+  width: 475px;
 }
 
 /* From cssbuttons.io by @adamgiebl */
@@ -112,6 +112,7 @@
 }
 
 .login-inputs {
+  align-items: center;
   display: flex;
   flex-direction: column;
   width: 16em;
@@ -155,7 +156,7 @@
   font-size: 18px;
   height: 40px;
   padding: 0 0 0 10px;
-  width: 100%;
+  width: 475px;
 }
 
 .login-inputs button:focus {
@@ -251,7 +252,10 @@ header p {
 }
 
 .timer {
-  font-size: 24px;
+  bottom: 5em;
+  font-size: 40px;
+  position: absolute;
+  right: 49%;
 }
 
 .next-button {
