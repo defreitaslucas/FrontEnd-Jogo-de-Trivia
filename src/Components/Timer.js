@@ -1,3 +1,5 @@
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -42,7 +44,8 @@ export class Timer extends Component {
   render() {
     const { timer } = this.state;
     return (
-      <div id="timer">
+      <div className="timer">
+        <FontAwesomeIcon icon={ faClock } />
         { timer }
       </div>
     );

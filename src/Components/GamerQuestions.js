@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import he from 'he';
 import { MAGIC_NUMBER_05 } from '../services/api';
-import './css/GamerQuestions.css';
 import Timer from './Timer';
 import { getAnswerButtonStatus, userInfo, getInitialButtonState } from '../Redux/Actions';
 import { addUserInRanking } from '../services/localStorage';
@@ -20,6 +19,8 @@ class GamerQuestions extends Component {
       token: '',
       buttonNext: false,
       assertions: 0,
+      buttonClassCorrect: '',
+      buttonClassIncorrect: '',
     };
 
     componentDidMount() {
@@ -34,6 +35,7 @@ class GamerQuestions extends Component {
   pointRules = (difficulty) => {
     const { dataInfo, name, email, token, timerValue } = this.props;
     const points = MAGIC_NUMBER_10 + (Number(timerValue) * Number(difficulty));
+    console.log(points);
     this.setState((prevState) => ({
       name,
       email,
@@ -60,31 +62,32 @@ class GamerQuestions extends Component {
   }
 
   handleClick = ({ target }) => {
-    const { setAnswerButtonHasBeenClickedToTrue } = this.props;
-    setAnswerButtonHasBeenClickedToTrue();
-    const buttons = target.parentNode.childNodes;
-    buttons.forEach((button) => {
-      switch (button.className) {
-      case 'incorrect':
-        button.classList.add('incorrectRed');
-        break;
-      case 'correct':
-        button.classList.add('correctGreen');
-        this.sumPoints(target);
-        this.setState((prevState) => ({
-          assertions: prevState.assertions + 1,
-        }));
-        break;
-      default:
-        break;
-      }
+    // const { setAnswerButtonHasBeenClickedToTrue } = this.props;
+    // setAnswerButtonHasBeenClickedToTrue();
+    this.setState({
+      buttonClassCorrect: 'correctGreen',
+      buttonClassIncorrect: 'incorrectRed',
     });
-    // localStorage.setItem('ranking', JSON.stringify([{ name, score, picture: `https://www.gravatar.com/avatar/${md5(email)}` }]));
+    switch (target.id) {
+    case 'incorrect':
+      console.log('errado');
+      break;
+    case 'correct':
+      console.log('certo');
+      this.sumPoints(target);
+      this.setState((prevState) => ({
+        assertions: prevState.assertions + 1,
+      }));
+      break;
+    default:
+      break;
+    }
     this.setState({ buttonNext: true });
   }
 
   generateAnswers = (number) => {
     const { questions, buttonDisable } = this.props;
+    const { buttonClassCorrect, buttonClassIncorrect } = this.state;
     const currentQuestion = questions[number];
     const { incorrect_answers: incorrectAnswers,
       correct_answer: correctAnswer, difficulty } = currentQuestion;
@@ -95,9 +98,10 @@ class GamerQuestions extends Component {
           type="button"
           key={ index }
           data-testid={ dataTestId }
-          className="incorrect"
+          className={ `incorrect ${buttonClassIncorrect}` }
           disabled={ buttonDisable }
           onClick={ this.handleClick }
+          id="incorrect"
 
         >
           {he.decode(incorrectAnswer)}
@@ -110,10 +114,11 @@ class GamerQuestions extends Component {
         type="button"
         key={ correctAnswer }
         data-testid="correct-answer"
-        className="correct"
+        className={ `correct ${buttonClassCorrect}` }
         disabled={ buttonDisable }
         onClick={ this.handleClick }
         level={ difficulty }
+        id="correct"
       >
         {he.decode(correctAnswer)}
 
@@ -123,18 +128,36 @@ class GamerQuestions extends Component {
   }
 
   generateButtonNext = () => (
-    <div>
-      <button
-        data-testid="btn-next"
-        type="button"
-        onClick={ this.generateNextQuestion }
-      >
-        Next
-      </button>
-    </div>
+    <button
+      className="next-button"
+      data-testid="btn-next"
+      type="button"
+      onClick={ this.generateNextQuestion }
+    >
+      Next
+    </button>
   )
 
   generateNextQuestion = () => {
+    // const answerButtons = target.parentNode.previousSibling.lastChild.childNodes;
+    // answerButtons.forEach((button) => {
+    //   switch (button.className) {
+    //   case 'incorrect incorrectRed':
+    //     button.classList.remove('incorrect', 'incorrectRed', 'correct', 'correctGreen');
+    //     button.classList.add('incorrect');
+    //     break;
+    //   case 'correct correctGreen':
+    //     button.classList.remove('correct', 'correctGreen', 'incorrect', 'incorrectRed');
+    //     button.classList.add('correct');
+    //     break;
+    //   default:
+    //     break;
+    //   }
+    // });
+    this.setState({
+      buttonClassCorrect: '',
+      buttonClassIncorrect: '',
+    });
     const { buttonTimerInitial } = this.props;
     this.setState((prevState) => ({
       counter: prevState.counter + 1,
@@ -145,10 +168,18 @@ class GamerQuestions extends Component {
     const { questions } = this.props;
     if (questions.length - 1 >= number) {
       return (
-        <div>
-          <h1 data-testid="question-category">{questions[number].category}</h1>
-          <p data-testid="question-text">{he.decode(questions[number].question)}</p>
-          <div data-testid="answer-options">{this.generateAnswers(number)}</div>
+        <div className="questions">
+          <h1 data-testid="question-category" className="question-category">
+            {questions[number].category}
+          </h1>
+          <div className="question-and-answers">
+            <p data-testid="question-text" className="game-question">
+              {he.decode(questions[number].question)}
+            </p>
+            <div data-testid="answer-options" className="game-options">
+              {this.generateAnswers(number)}
+            </div>
+          </div>
         </div>
       );
     }
@@ -171,14 +202,14 @@ class GamerQuestions extends Component {
     const { counter, buttonNext } = this.state;
     const { questions } = this.props;
     return (
-      <div>
+      <div className="game-div">
         {
           questions.length && this.mountedQuestion(counter)
         }
+        <Timer />
         {
           buttonNext && this.generateButtonNext()
         }
-        <Timer />
       </div>
     );
   }
@@ -187,7 +218,7 @@ class GamerQuestions extends Component {
 GamerQuestions.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   buttonDisable: PropTypes.bool.isRequired,
-  setAnswerButtonHasBeenClickedToTrue: PropTypes.func.isRequired,
+  // setAnswerButtonHasBeenClickedToTrue: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   dataInfo: PropTypes.func.isRequired,

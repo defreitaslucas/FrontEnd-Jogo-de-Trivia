@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGamepad, faBullseye } from '@fortawesome/free-solid-svg-icons';
 
 class Header extends React.Component {
   state = {
@@ -9,26 +11,29 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    const { score } = this.props;
-    this.setState({ score });
   }
 
   render() {
-    const { name, email } = this.props;
-    const { score } = this.state;
+    const { name, email, score } = this.props;
     return (
       <header>
-        <div>
+        <div className="player_info">
           <img
             data-testid="header-profile-picture"
             alt="userImage"
             src={ `https://www.gravatar.com/avatar/${md5(email)}` }
           />
-          <p data-testid="header-score">
-            { score }
+          <p data-testid="header-player-name">
+            { name }
+            {' '}
+            <FontAwesomeIcon icon={ faGamepad } />
           </p>
-          <p data-testid="header-player-name">{ name }</p>
         </div>
+        <p data-testid="header-score">
+          { score }
+          {' '}
+          <FontAwesomeIcon icon={ faBullseye } />
+        </p>
       </header>
     );
   }
